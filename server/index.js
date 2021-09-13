@@ -13,6 +13,15 @@ app.use(cors());
 
 app.get('/', async (req, res) => {
     let attempt = await client.listSheet();
+    // https://github.com/googleapis/google-api-nodejs-client#authentication-and-authorization
+    // let attempt = await client.readToken()
+    // if attempt is rejected, getNewToken - generate the authURL for the user
+    // using a redirect_url, then res.send the authURL
+    // handle the redirect with a different app.get() method and use that to generate a token
+    // This will provide an object with the access_token and refresh_token.
+    // Save these somewhere safe so they can be used at a later time.
+    // const {tokens} = await oauth2Client.getToken(code)
+    // oauth2Client.setCredentials(tokens);
     res.send(attempt);
 });
 
