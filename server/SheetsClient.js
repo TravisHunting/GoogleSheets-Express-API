@@ -1,6 +1,3 @@
-// https://developers.google.com/sheets/api/quickstart/nodejs
-// scope: https://www.googleapis.com/auth/spreadsheets
-
 const fs = require('fs');
 const readline = require('readline');
 const {google} = require('googleapis');
@@ -8,45 +5,9 @@ const {google} = require('googleapis');
 // If modifying these scopes, delete token.json.
 const SCOPES = ['https://www.googleapis.com/auth/spreadsheets'];
 // The file token.json stores the user's access and refresh tokens, and is
-// created automatically when the authorization flow completes for the first
-// time.
+// created automatically when the authorization flow completes for the first time.
 const TOKEN_PATH = 'token.json';
 
-// This can happen synchronously because it only happens on startup
-// let rawata = fs.readFileSync('../credentials.json');
-// let authDetails = JSON.parse(rawdata);
-// const {client_secret, client_id, redirect_uris} = authDetails.web;
-// let oAuth2Client = new google.auth.OAuth2(client_id, client_secret, redirect_uris[0]);
-// try {
-//   let rawTokenData = fs.readFileSync(TOKEN_PATH);
-//   oAuth2Client.setCredentials(JSON.parse(rawTokenData));
-// } catch (err) {
-//   getNewToken(oAuth2Client);
-// }
-
-// function getNewToken(oAuth2Client) {
-//   const authUrl = oAuth2Client.generateAuthUrl({
-//     access_type: 'offline',
-//     scope: SCOPES,
-//   });
-//   console.log('Authorize this app by visiting this url:', authUrl);
-//   const rl = readline.createInterface({
-//     input: process.stdin,
-//     output: process.stdout,
-//   });
-//   rl.question('Enter the code from that page here: ', (code) => {
-//     rl.close();
-//     oAuth2Client.getToken(code, (err, token) => {
-//       if (err) return console.error('Error while trying to retrieve access token', err);
-//       oAuth2Client.setCredentials(token);
-//       // Store the token to disk for later program executions
-//       fs.writeFile(TOKEN_PATH, JSON.stringify(token), (err) => {
-//         if (err) return console.error(err);
-//         console.log('Token stored to', TOKEN_PATH);
-//       });
-//     });
-//   });
-// }
 
 class SheetsClient {
   /* On instantiation a SheetClient object will attempt to read credentials from local files.
@@ -145,9 +106,5 @@ class SheetsClient {
   }
 
 }
-
-//let test = new SheetsClient();
-//test.listSheet(); // Fails because test.init() hasn't finished
-//setTimeout(function(){test.listSheet()}, 3000); // No longer fails
 
 module.exports.SheetsClient = SheetsClient;
