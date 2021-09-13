@@ -78,6 +78,7 @@ class SheetsClient {
           return self.getNewToken(self.oAuth2Client);
         }
         self.oAuth2Client.setCredentials(JSON.parse(token));
+        console.log("SheetsClient initialized");
       })
 
     });
@@ -107,30 +108,43 @@ class SheetsClient {
     });
   }
 
+  // listSheet returns a promise, so you can use "await" when calling it
   listSheet() {
     let auth = this.oAuth2Client;
     const sheets = google.sheets({version: 'v4', auth});
-    sheets.spreadsheets.values.get({
-      spreadsheetId: '1WjM31LPBdqNS7cpcp4kjkqbGdg1lFlgm2GfMYolqChs',
-      range: 'Sheet1!A1:C',
-    }, (err, res) => {
-      if (err) return console.log('The API returned an error: ' + err);
-      const rows = res.data.values;
-      if (rows.length) {
-        console.log('Printing all data');
-        // Print columns A and E, which correspond to indices 0 and 4.
-        // rows.map((row) => {
-        //   console.log(`${row[0]}, ${row[4]}`);
-        // });
-        console.log(rows);
-      } else {
-        console.log('No data found.');
-      }
-    });
+    
+    const sheetsPromise = new Promise(function(resolve,reject) {
+      // insert any asynchronous function into a promise 
+      // replace the returns with 'resolve' or 'reject'
+      // now you can 'await' the result
+      sheets.spreadsheets.values.get({
+        spreadsheetId: '1WjM31LPBdqNS7cpcp4kjkqbGdg1lFlgm2GfMYolqChs',
+        range: 'Sheet1!A1:C',
+      }, (err, res) => {
+        if (err) {
+          console.log('The API returned an error: ' + err);
+          reject("The API returned an error. Please try again.");
+        }
+        const rows = res.data.values;
+        if (rows.length) {
+          console.log('Printing all data');
+          // Print columns A and E, which correspond to indices 0 and 4.
+          // rows.map((row) => {
+          //   console.log(`${row[0]}, ${row[4]}`);
+          // });
+          console.log(rows);
+          resolve(rows);
+        } else {
+          console.log('No data found.');
+          resolve("No data found.");
+        }
+      });
+    })
+
+    return sheetsPromise;
   }
 
 }
-
 
 //let test = new SheetsClient();
 //test.listSheet(); // Fails because test.init() hasn't finished
