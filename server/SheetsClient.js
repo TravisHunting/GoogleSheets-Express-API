@@ -10,8 +10,15 @@ const TOKEN_PATH = 'token.json';
 
 
 class SheetsClient {
-  // Performs Synch file read
+  // Order of events for proper authorization:
+  // 1: Read Application credentials (happens in constructor)
+  // 2: Attempt to read existing token using readToken(). If this succeeds, you're done.
+  // 3. If reading the token failed, generate an authorization link using getNewTokenLink()
+  // 4. Following the link and signing into a google account generates a code
+  // 5. Use the code provided to generate a token using getNewTokenFromCode(code)
+  // 6. Attempt to read the token once more using readToken(). This should succeed.
   constructor() {
+    // Performs Synch file read
     this.hasToken = false;
 
     try {
@@ -55,6 +62,8 @@ class SheetsClient {
 
   // Synch
   getNewTokenLink() {
+    // Using the link created by this function will provide us with a code
+    // This code is used in getNewTokenFromCode(code) to generate a token
     const authUrl = this.oAuth2Client.generateAuthUrl({
       access_type: 'offline',
       scope: SCOPES,
