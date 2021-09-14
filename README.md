@@ -1,4 +1,4 @@
-# Express server with Google Sheets connection
+# Express server with Google Sheets connection via OAuth
 
 Resources: <br>
 https://developers.google.com/sheets/api/quickstart/nodejs <br>
