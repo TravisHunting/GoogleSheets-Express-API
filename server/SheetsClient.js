@@ -167,6 +167,7 @@ class SheetsClient {
   // Promise
   listSheetByID(spreadsheetId) {
     // TODO: add params that let you hone in on the sheet and range you want
+    // Move this function elsewhere?
     let auth = this.oAuth2Client;
     const sheets = google.sheets({version: 'v4', auth});
     

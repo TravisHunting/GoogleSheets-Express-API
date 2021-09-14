@@ -25,4 +25,5 @@ yarn-error.log*
 
 secrets.json
 credentials.json
+servicecredentials.json
 token.json
